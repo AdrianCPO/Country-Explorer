@@ -11,7 +11,7 @@ export const Navbar = () => {
           <NavLink to="/countries">Länder</NavLink>
         </li>
         <li>
-          <NavLink to="/country/:name">Land</NavLink>
+          <NavLink to="/country/:code">Land</NavLink>
         </li>
         <li>
           <NavLink to="/search">Sök</NavLink>

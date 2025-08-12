@@ -7,13 +7,13 @@ import {
 import { App } from "./components/App";
 import { Home } from "./views/Home";
 import { CountriesListView } from "./views/CountriesListView";
-import { CountryDetailView } from "./views/CountryDetailView";
+import { CountryDetailsView } from "./views/CountryDetailsView";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<Home />} />
-      <Route path="country/:name" element={<CountryDetailView />} />
+      <Route path="country/:code" element={<CountryDetailsView />} />
       <Route path="countries" element={<CountriesListView />} />
       <Route
         element={
