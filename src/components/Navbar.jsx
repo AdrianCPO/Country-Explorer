@@ -8,7 +8,13 @@ export const Navbar = () => {
           <NavLink to="/">Hem</NavLink>
         </li>
         <li>
-          <NavLink to="/country">Länder</NavLink>
+          <NavLink to="/countries">Länder</NavLink>
+        </li>
+        <li>
+          <NavLink to="/country/:name">Land</NavLink>
+        </li>
+        <li>
+          <NavLink to="/search">Sök</NavLink>
         </li>
       </ul>
     </nav>

@@ -1,1 +1,1 @@
-export const Country = () => <h1>Country</h1>;
+export const Country = () => <h1>Land</h1>;
