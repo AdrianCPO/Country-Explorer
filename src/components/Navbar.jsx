@@ -5,9 +5,6 @@ export const Navbar = () => {
     <nav>
       <ul>
         <li>
-          <NavLink to="/">Hem</NavLink>
-        </li>
-        <li>
           <NavLink to="/countries">Länder</NavLink>
         </li>
         <li>

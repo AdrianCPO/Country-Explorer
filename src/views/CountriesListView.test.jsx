@@ -1,79 +1,119 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import CountriesListView from "./CountriesListView";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { CountriesListView } from "./CountriesListView";
 
+// Liten dataset för tydliga filterträffar
 const mockCountries = [
   {
     name: { common: "Sweden" },
     flags: { svg: "https://flagcdn.com/se.svg" },
     cca3: "SWE",
     region: "Europe",
-    population: 10000000,
   },
   {
-    name: { common: "Norway" },
-    flags: { svg: "https://flagcdn.com/no.svg" },
-    cca3: "NOR",
+    name: { common: "Switzerland" },
+    flags: { svg: "https://flagcdn.com/ch.svg" },
+    cca3: "CHE",
     region: "Europe",
-    population: 5000000,
+  },
+  {
+    name: { common: "Brazil" },
+    flags: { svg: "https://flagcdn.com/br.svg" },
+    cca3: "BRA",
+    region: "Americas",
   },
 ];
 
-function renderPage() {
-  return render(
-    <MemoryRouter initialEntries={["/"]}>
-      <CountriesListView />
-    </MemoryRouter>
-  );
+function okResponse(data) {
+  return { ok: true, json: async () => data };
 }
 
-describe("CountriesListView", () => {
+describe("CountriesListView – filtrering i minnet", () => {
   beforeEach(() => {
     vi.spyOn(global, "fetch");
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
-  it("visar länder efter lyckad hämtning", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockCountries,
-    });
+  it("kan filtrera på region OCH sökfras samtidigt (t.ex. Europe + 'sw')", async () => {
+    global.fetch.mockResolvedValueOnce(okResponse(mockCountries));
 
-    renderPage();
+    // setup så att timers avanceras av user-event vid debounce
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    // Vänta tills listan renderas
-    const items = await screen.findAllByRole("listitem");
-    expect(items.length).toBe(2);
+    render(<CountriesListView />);
 
-    // Länkar med landnamn
+    // Vänta tills listan laddats (minst en länk syns)
+    await screen.findByRole("link", { name: /sweden/i });
+
+    // 1) Välj region Europe
+    const regionSelect = screen.getByLabelText(/region/i);
+    await user.selectOptions(regionSelect, "Europe");
+
+    // 2) Skriv 'sw' i sökrutan
+    const input = screen.getByRole("textbox", { name: /sök land/i });
+    await user.clear(input);
+    await user.type(input, "sw");
+
+    // Debounce i SearchBar är 300ms i dina komponenter → avancera tid
+    vi.advanceTimersByTime(350);
+
+    // Förvänta: Sweden + Switzerland visas, Brazil ska inte synas
     expect(screen.getByRole("link", { name: /sweden/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /norway/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /switzerland/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /brazil/i })
+    ).not.toBeInTheDocument();
   });
 
-  it('visar error-state och "Försök igen"-knapp vid misslyckad hämtning', async () => {
-    global.fetch.mockResolvedValueOnce({ ok: false, status: 500 });
+  it("visar 'Inga träffar' när sökfrasen inte matchar inom vald region", async () => {
+    global.fetch.mockResolvedValueOnce(okResponse(mockCountries));
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    renderPage();
+    render(<CountriesListView />);
 
+    await screen.findByRole("link", { name: /sweden/i });
+
+    // Välj Americas och sök 'sw' (ska inte hitta något där)
+    await user.selectOptions(screen.getByLabelText(/region/i), "Americas");
+    const input = screen.getByRole("textbox", { name: /sök land/i });
+    await user.clear(input);
+    await user.type(input, "sw");
+    vi.advanceTimersByTime(350);
+
+    expect(await screen.findByText(/inga träffar/i)).toBeInTheDocument();
+  });
+
+  it("kan återhämta sig från fel via 'Försök igen'-knappen", async () => {
+    // 1:a anrop: fel
+    global.fetch
+      .mockResolvedValueOnce({ ok: false, status: 500 })
+      // 2:a anrop (efter retry): OK
+      .mockResolvedValueOnce(okResponse(mockCountries));
+
+    const user = userEvent.setup();
+
+    render(<CountriesListView />);
+
+    // Fel-state syns
     const retryBtn = await screen.findByRole("button", {
       name: /försök igen/i,
     });
     expect(retryBtn).toBeInTheDocument();
-  });
 
-  it('visar "Inga träffar" när API svarar med tom lista', async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [],
-    });
+    // Klicka – komponenten gör ett nytt fetch-anrop
+    await user.click(retryBtn);
 
-    renderPage();
-
-    const emptyText = await screen.findByText(/inga träffar/i);
-    expect(emptyText).toBeInTheDocument();
+    // Nu ska listan renderas
+    expect(
+      await screen.findByRole("link", { name: /sweden/i })
+    ).toBeInTheDocument();
   });
 });
