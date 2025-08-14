@@ -1,10 +1,11 @@
 export const RegionFilter = ({ region = "", onRegionChange = () => {} }) => {
   return (
-    <div>
+    <div style={{ width: 220 }}>
       <label htmlFor="region">Region</label>
       <select
         id="region"
         value={region}
+        className="select"
         onChange={(e) => onRegionChange(e.target.value)}
       >
         <option value="">Alla</option>

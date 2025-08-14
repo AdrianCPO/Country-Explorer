@@ -32,9 +32,12 @@ export const SearchBar = ({
 
   return (
     <div>
-      <label htmlFor="query">Sök land</label>
+      <label htmlFor="query" className="label">
+        Sök land
+      </label>
       <input
         id="query"
+        className="input"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
