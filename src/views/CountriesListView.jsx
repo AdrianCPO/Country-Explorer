@@ -13,7 +13,10 @@ export const CountriesListView = () => {
   useEffect(() => {
     let alive = true;
     setStatus("loading");
-    getAllCountries()
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s
+
+    getAllCountries({ signal: controller.signal })
       .then((data) => {
         if (!alive) return;
         setAllCountries(Array.isArray(data) ? data : []);
@@ -23,9 +26,12 @@ export const CountriesListView = () => {
         if (!alive) return;
         setAllCountries([]);
         setStatus("error");
-      });
+      })
+      .finally(() => clearTimeout(timeoutId));
     return () => {
       alive = false;
+      controller.abort();
+      clearTimeout(timeoutId);
     };
   }, [reloadKey]);
 

@@ -2,8 +2,8 @@ const BASE = "https://restcountries.com/v3.1";
 const FIELDS =
   "fields=name,flags,cca3,region,population,capital,languages,borders";
 
-export async function getAllCountries() {
-  const res = await fetch(`${BASE}/all?${FIELDS}`);
+export async function getAllCountries({ signal } = {}) {
+  const res = await fetch(`${BASE}/all?${FIELDS}`, { signal });
   if (!res.ok) throw new Error("Kunde inte hämta länder");
   return await res.json(); // Array
 }
