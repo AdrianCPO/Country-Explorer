@@ -8,20 +8,16 @@ export function App() {
       <a href="#main" className="skip-link">
         Hoppa till innehåll
       </a>
-      <header className="container" style={{ paddingBlock: 16 }}>
-        <Link
-          to="/"
-          style={{
-            color: "var(--text)",
-            textDecoration: "none",
-            fontWeight: 600,
-          }}
-        >
+
+      <header className="container siteHeader">
+        <Link to="/" className="brand">
           Country Explorer
         </Link>
       </header>
+
       <Navbar />
-      <main id="main" className="container" style={{ paddingBottom: 24 }}>
+
+      <main id="main" className="container siteMain">
         <Outlet />
       </main>
     </>

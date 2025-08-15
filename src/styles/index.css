@@ -1,0 +1,179 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+:root {
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  /* färger */
+  --bg: #0b0c0f;
+  --card: #151821;
+  --text: #f5f7fb;
+  --muted: #9aa3b2;
+  --accent: #4f8cff;
+  --border: #232633;
+  /* layout */
+  --radius: 12px;
+  --container: 1100px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ffffff;
+    --card: #f7f8fb;
+    --text: #0b0c0f;
+    --muted: #4b5563;
+    --border: #e5e7eb;
+    --accent: #2563eb;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.5;
+}
+
+/* Fokus och skip-link för a11y */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+}
+.skip-link:focus {
+  left: var(--space-4);
+  top: var(--space-4);
+  background: var(--card);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 8px;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* Filterrad (Search + Region) – staplad på mobil, rad på bredare skärmar */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-block: var(--space-4);
+}
+@media (min-width: 600px) {
+  .filters {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+}
+
+/* Inputs */
+.label {
+  display: block;
+  font-size: 0.9em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.input,
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+}
+.input:focus,
+.select:focus {
+  border-color: var(--accent);
+}
+
+/* Grid för länder – mobil först */
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* Kort */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+.card a {
+  color: inherit;
+  text-decoration: none;
+}
+.card a:hover {
+  text-decoration: underline;
+}
+
+/* Flaggbild – håll format snyggt oavsett container */
+.flag {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+/* Knappar */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+.button:hover {
+  border-color: var(--accent);
+}
+
+/* Mjukare animationer för de som vill */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
