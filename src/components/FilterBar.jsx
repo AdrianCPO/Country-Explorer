@@ -10,9 +10,6 @@ export const FilterBar = ({
   return (
     <div className="filters">
       <div style={{ flex: 1, minWidth: 220 }}>
-        <label htmlFor="query" className="label">
-          Sök land
-        </label>
         <SearchBar
           query={query}
           onQueryChange={onQueryChange}

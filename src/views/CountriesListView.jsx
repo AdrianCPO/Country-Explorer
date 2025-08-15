@@ -41,6 +41,7 @@ export const CountriesListView = () => {
     .filter((c) =>
       query ? normalize(c?.name?.common).includes(normalize(query)) : true
     );
+  const count = filtered.length;
 
   if (status === "loading") return <div>Hämtar…</div>;
   if (status === "error")
@@ -61,6 +62,9 @@ export const CountriesListView = () => {
         region={region}
         onRegionChange={setRegion}
       />
+      <p aria-live="polite" style={{ color: "var(--muted)", marginTop: 4 }}>
+        {count} {count === 1 ? "land" : "länder"}
+      </p>
       <CountriesList countries={filtered} />
     </>
   );
