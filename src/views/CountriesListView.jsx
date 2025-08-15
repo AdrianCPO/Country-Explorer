@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAllCountries } from "../api/restCountries"; // samma som tidigare
-import { FilterBar } from "../components/FilterBar"; // SearchBar + RegionFilter
-import { CountriesList } from "../components/CountriesList"; // renderar <ul>/<li>
+import { getAllCountries } from "../api/restCountries";
+import { FilterBar } from "../components/FilterBar";
+import { CountriesList } from "../components/CountriesList";
 
 export const CountriesListView = () => {
   const [status, setStatus] = useState("loading");

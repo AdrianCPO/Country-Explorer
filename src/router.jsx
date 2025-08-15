@@ -1,5 +1,6 @@
 import {
   Route,
+  Navigate,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
@@ -11,7 +12,8 @@ import { CountryDetailsView } from "./views/CountryDetailsView";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index path="countries" element={<CountriesListView />} />
+      <Route index element={<Navigate to="countries" replace />} />
+      <Route path="countries" element={<CountriesListView />} />
       <Route path="country/:code" element={<CountryDetailsView />} />
       <Route
         element={

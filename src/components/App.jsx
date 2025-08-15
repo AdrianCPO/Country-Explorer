@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import "../styles/App.css";
 
-function AppShell({ children }) {
+export function App() {
   return (
     <>
       <a href="#main" className="skip-link">
@@ -20,18 +20,10 @@ function AppShell({ children }) {
           Country Explorer
         </Link>
       </header>
+      <Navbar />
       <main id="main" className="container" style={{ paddingBottom: 24 }}>
-        {children}
+        <Outlet />
       </main>
     </>
-  );
-}
-
-export function App() {
-  return (
-    <div>
-      <Navbar />
-      <Outlet />
-    </div>
   );
 }

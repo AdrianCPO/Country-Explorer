@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export const CountriesList = ({ countries = [] }) => {
   if (!Array.isArray(countries) || countries.length === 0) {
-    return <p>Inga träffar, försök igen</p>;
+    return <p>Inga träffar</p>;
   }
 
   return (
@@ -15,7 +17,7 @@ export const CountriesList = ({ countries = [] }) => {
               loading="lazy"
             />
           )}
-          <a href={`/country/${c.cca3}`}>{c.name?.common}</a>
+          <Link to={`/country/${c.cca3}`}>{c.name?.common}</Link>
           <div style={{ color: "var(--muted)", marginTop: 6 }}>{c.region}</div>
         </li>
       ))}

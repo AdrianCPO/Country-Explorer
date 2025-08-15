@@ -8,7 +8,7 @@ export const Navbar = () => {
           <NavLink to="/countries">Länder</NavLink>
         </li>
         <li>
-          <NavLink to="/search">Sök</NavLink>
+          <NavLink to="/about">Om sidan</NavLink>
         </li>
       </ul>
     </nav>
