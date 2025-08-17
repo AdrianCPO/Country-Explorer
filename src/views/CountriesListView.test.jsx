@@ -1,9 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
+
+// Mocka API-modulen FÖRE komponentimporten
+vi.mock("../api/restCountries", () => ({
+  getAllCountries: vi.fn(),
+}));
+import { getAllCountries } from "../api/restCountries";
+
 import { CountriesListView } from "./CountriesListView";
 
-// Liten dataset för tydliga filterträffar
 const mockCountries = [
   {
     name: { common: "Sweden" },
@@ -25,45 +32,39 @@ const mockCountries = [
   },
 ];
 
-function okResponse(data) {
-  return { ok: true, json: async () => data };
-}
-
 describe("CountriesListView – filtrering i minnet", () => {
   beforeEach(() => {
-    vi.spyOn(global, "fetch");
-    vi.useFakeTimers();
+    vi.mocked(getAllCountries).mockReset();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
-    vi.useRealTimers();
+    cleanup();
+    vi.clearAllMocks();
   });
 
   it("kan filtrera på region OCH sökfras samtidigt (t.ex. Europe + 'sw')", async () => {
-    global.fetch.mockResolvedValueOnce(okResponse(mockCountries));
+    vi.mocked(getAllCountries).mockResolvedValueOnce(mockCountries);
 
-    // setup så att timers avanceras av user-event vid debounce
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const user = userEvent.setup();
 
-    render(<CountriesListView />);
+    render(
+      <MemoryRouter initialEntries={["/countries"]}>
+        <CountriesListView />
+      </MemoryRouter>
+    );
 
-    // Vänta tills listan laddats (minst en länk syns)
+    // Vänta in startlistan
     await screen.findByRole("link", { name: /sweden/i });
 
-    // 1) Välj region Europe
-    const regionSelect = screen.getByLabelText(/region/i);
-    await user.selectOptions(regionSelect, "Europe");
-
-    // 2) Skriv 'sw' i sökrutan
+    // Filtrera
+    await user.selectOptions(screen.getByLabelText(/region/i), "Europe");
     const input = screen.getByRole("textbox", { name: /sök land/i });
     await user.clear(input);
     await user.type(input, "sw");
 
-    // Debounce i SearchBar är 300ms i dina komponenter → avancera tid
-    vi.advanceTimersByTime(350);
+    // vänta ut debouncen (SearchBar använder 300ms)
+    await new Promise((r) => setTimeout(r, 350));
 
-    // Förvänta: Sweden + Switzerland visas, Brazil ska inte synas
     expect(screen.getByRole("link", { name: /sweden/i })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /switzerland/i })
@@ -74,44 +75,44 @@ describe("CountriesListView – filtrering i minnet", () => {
   });
 
   it("visar 'Inga träffar' när sökfrasen inte matchar inom vald region", async () => {
-    global.fetch.mockResolvedValueOnce(okResponse(mockCountries));
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    vi.mocked(getAllCountries).mockResolvedValueOnce(mockCountries);
+    const user = userEvent.setup();
 
-    render(<CountriesListView />);
+    render(
+      <MemoryRouter initialEntries={["/countries"]}>
+        <CountriesListView />
+      </MemoryRouter>
+    );
 
     await screen.findByRole("link", { name: /sweden/i });
 
-    // Välj Americas och sök 'sw' (ska inte hitta något där)
     await user.selectOptions(screen.getByLabelText(/region/i), "Americas");
     const input = screen.getByRole("textbox", { name: /sök land/i });
     await user.clear(input);
     await user.type(input, "sw");
-    vi.advanceTimersByTime(350);
+    await new Promise((r) => setTimeout(r, 350));
 
     expect(await screen.findByText(/inga träffar/i)).toBeInTheDocument();
   });
 
   it("kan återhämta sig från fel via 'Försök igen'-knappen", async () => {
-    // 1:a anrop: fel
-    global.fetch
-      .mockResolvedValueOnce({ ok: false, status: 500 })
-      // 2:a anrop (efter retry): OK
-      .mockResolvedValueOnce(okResponse(mockCountries));
+    vi.mocked(getAllCountries)
+      .mockRejectedValueOnce(new Error("500"))
+      .mockResolvedValueOnce(mockCountries);
 
     const user = userEvent.setup();
 
-    render(<CountriesListView />);
+    render(
+      <MemoryRouter initialEntries={["/countries"]}>
+        <CountriesListView />
+      </MemoryRouter>
+    );
 
-    // Fel-state syns
     const retryBtn = await screen.findByRole("button", {
       name: /försök igen/i,
     });
-    expect(retryBtn).toBeInTheDocument();
-
-    // Klicka – komponenten gör ett nytt fetch-anrop
     await user.click(retryBtn);
 
-    // Nu ska listan renderas
     expect(
       await screen.findByRole("link", { name: /sweden/i })
     ).toBeInTheDocument();

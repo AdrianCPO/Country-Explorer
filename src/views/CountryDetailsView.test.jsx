@@ -2,17 +2,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { CountryDetailsView } from "./CountryDetailsView";
+vi.mock("../api/restCountries", () => ({
+  getCountryByCode: vi.fn(),
+}));
+import { getCountryByCode } from "../api/restCountries";
 
 const ok = (data) => ({ ok: true, json: async () => data });
 
 describe("CountryDetailsView", () => {
-  beforeEach(() => vi.spyOn(global, "fetch"));
   afterEach(() => vi.restoreAllMocks());
 
   it("renderar land vid success", async () => {
-    vi.mocked(global.fetch).mockResolvedValueOnce(
-      ok([{ name: { common: "Sweden" }, flags: { svg: "" }, cca3: "SWE" }])
-    );
+    vi.mocked(getCountryByCode).mockResolvedValueOnce({
+      name: { common: "Sweden" },
+      flags: { svg: "" },
+      cca3: "SWE",
+    });
     render(
       <MemoryRouter initialEntries={["/country/SWE"]}>
         <Routes>
@@ -26,11 +31,7 @@ describe("CountryDetailsView", () => {
   });
 
   it("visar notfound vid 404", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: false,
-      status: 404,
-      json: async () => null,
-    });
+    vi.mocked(getCountryByCode).mockResolvedValueOnce(null);
     render(
       <MemoryRouter initialEntries={["/country/XXX"]}>
         <Routes>

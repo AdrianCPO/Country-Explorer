@@ -1,6 +1,18 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import SearchBar from "./SearchBar";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { SearchBar } from "./SearchBar";
+
+// Viktigt: städa efter varje test så vi inte har flera instanser i DOM
+afterEach(() => {
+  cleanup();
+});
 
 describe("SearchBar (tester, utan timers)", () => {
   it("visar felmeddelande vid för kort inmatning", () => {
@@ -12,14 +24,20 @@ describe("SearchBar (tester, utan timers)", () => {
     expect(screen.getByText(/minst 2 tecken/i)).toBeInTheDocument();
   });
 
-  it("anropar onQueryChange direkt när inmatningen är giltig", () => {
+  it("anropar onQueryChange direkt när inmatningen är giltig", async () => {
     const handleChange = vi.fn();
     render(<SearchBar query="" onQueryChange={handleChange} debounceMs={0} />);
 
     const input = screen.getByRole("textbox", { name: /sök land/i });
-    fireEvent.change(input, { target: { value: "Sweden" } });
+    const user = userEvent.setup();
 
-    expect(handleChange).toHaveBeenCalledWith("Sweden");
+    await user.clear(input);
+    await user.type(input, "Sweden");
+
+    // Vänta in effekten som anropar onQueryChange
+    await waitFor(() => {
+      expect(handleChange).toHaveBeenCalledWith("Sweden");
+    });
   });
 
   it("anropar inte onQueryChange när inmatningen är ogiltig", () => {

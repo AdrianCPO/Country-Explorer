@@ -10,15 +10,18 @@ export const SearchBar = ({
   const [error, setError] = useState(null);
   const timerRef = useRef(null);
 
-  // Håll input i synk om prop ändras utifrån
+  // Håll input i synk om prop ändras – anropa inte onQueryChange här.
   useEffect(() => {
     setValue(query);
+    const { ok, error } = validateQuery(query);
+    setError(ok ? null : error);
   }, [query]);
 
-  // Validera + debounce-anropa förälder endast när input är giltig
+  // Debounce-läge: endast när debounceMs > 0
   useEffect(() => {
-    const { ok, error, value: cleaned } = validateQuery(value);
-    setError(ok ? null : error);
+    if (debounceMs <= 0) return;
+
+    const { ok, value: cleaned } = validateQuery(value);
 
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
@@ -30,6 +33,19 @@ export const SearchBar = ({
     };
   }, [value, debounceMs, onQueryChange]);
 
+  // Omedelbart läge: ring direkt i onChange
+  const handleChange = (e) => {
+    const next = e.target.value;
+    setValue(next);
+
+    const { ok, error, value: cleaned } = validateQuery(next);
+    setError(ok ? null : error);
+
+    if (debounceMs <= 0 && ok) {
+      onQueryChange(cleaned);
+    }
+  };
+
   return (
     <div>
       <label htmlFor="query" className="label">
@@ -40,7 +56,7 @@ export const SearchBar = ({
         className="input"
         type="text"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         aria-invalid={error ? "true" : "false"}
         aria-describedby={error ? "query-error" : undefined}
       />
