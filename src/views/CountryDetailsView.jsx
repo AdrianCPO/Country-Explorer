@@ -16,7 +16,10 @@ export const CountryDetailsView = () => {
     setStatus("loading");
     setCountry(null);
 
-    getCountryByCode(code)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    getCountryByCode(code, { signal: controller.signal })
       .then((data) => {
         if (!alive) return;
         if (!data) {
@@ -29,10 +32,13 @@ export const CountryDetailsView = () => {
       .catch(() => {
         if (!alive) return;
         setStatus("error");
-      });
+      })
+      .finally(() => clearTimeout(timeoutId));
 
     return () => {
       alive = false;
+      controller.abort();
+      clearTimeout(timeoutId);
     };
   }, [code, reloadKey]);
 
