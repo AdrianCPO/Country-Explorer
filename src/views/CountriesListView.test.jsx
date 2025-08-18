@@ -3,7 +3,6 @@ import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 
-// Mocka API-modulen FÖRE komponentimporten
 vi.mock("../api/restCountries", () => ({
   getAllCountries: vi.fn(),
 }));
