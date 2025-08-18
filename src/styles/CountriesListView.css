@@ -19,7 +19,6 @@
   gap: var(--space-3);
   color: var(--muted);
   margin-top: -8px; /* lite tightare mot FilterBar */
-  text-align: none;
 }
 .CountRow__text {
   font-variant-numeric: tabular-nums;

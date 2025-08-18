@@ -1,5 +1,7 @@
 .siteHeader {
   padding-block: 16px;
+  text-align: center;
+  font-size: 28px;
 }
 .brand {
   color: var(--text);

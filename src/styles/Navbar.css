@@ -9,6 +9,7 @@
 .Navbar__inner {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-4);
   padding-block: var(--space-3);
 }

@@ -1,24 +1,52 @@
-/* Nollställ ul så inga punkter syns */
 .CountriesList {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* Kortet (li) – liten hover för feedback */
+/* Kortet (li) */
 .CountryCard {
+  padding: 0; /* padding hanteras av länken */
+}
+
+/* Blocklänk som fyller hela kortet och sköter layouten */
+.CountryCard__link {
   display: grid;
   gap: var(--space-3);
-  transition:
-    border-color 0.15s ease,
-    transform 0.05s ease;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius);
+  /* skapa “klickyta” */
+  padding: var(--space-4);
+  /* matcha card-stil och interaktion */
+  background: transparent; /* kortet har redan bakgrund via .card */
+  outline: none;
+}
+
+/* Flytta hover/active från .CountryCard till länken */
+.CountryCard__link:hover {
+  text-decoration: none;
+}
+.CountryCard__link:hover,
+.CountryCard__link:active {
+  /* lätt lyft + accentkant */
+  border-radius: var(--radius);
 }
 .CountryCard:hover {
   border-color: var(--accent);
   transform: translateY(-1px);
+  transition:
+    border-color 0.15s ease,
+    transform 0.05s ease;
 }
 
-/* Flagga – egen klass istället för globala .flag */
+/* Tangentbordsfokus – tydlig ring som inte skakar layouten */
+.CountryCard__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Bild, titel, meta */
 .CountryCard__flag {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -26,35 +54,23 @@
   border-radius: 10px;
   display: block;
 }
-
-/* Titel + länk */
 .CountryCard__title {
   margin: 0;
   font-size: clamp(14px, 2.4vw, 18px);
   line-height: 1.2;
 }
-.CountryCard__link {
-  color: inherit;
-  text-decoration: none;
-  border-radius: 8px; /* nicer focus ring */
-}
-.CountryCard__link:hover {
-  text-decoration: underline;
-}
-
-/* Region/muted text */
 .CountryCard__meta {
   color: var(--muted);
   font-size: 0.95em;
 }
 
-/* Tomt fallback-meddelande (om komponenten används fristående) */
+/* Tomt fallback-meddelande */
 .CountriesList__empty {
   color: var(--muted);
   margin: var(--space-4) 0;
 }
 
-/* Respekt för reducerad rörelse */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .CountryCard {
     transition: none !important;

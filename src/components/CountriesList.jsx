@@ -16,22 +16,23 @@ export const CountriesList = ({ countries = [] }) => {
 
         return (
           <li key={code} className="CountryCard card">
-            {flag && (
-              <img
-                className="CountryCard__flag"
-                src={flag}
-                alt={`Flagga för ${name}`}
-                loading="lazy"
-              />
-            )}
+            <Link
+              to={`/country/${code}`}
+              className="CountryCard__link"
+              aria-label={`Visa detaljer för ${name}`}
+            >
+              {flag && (
+                <img
+                  className="CountryCard__flag"
+                  src={flag}
+                  alt={`Flagga för ${name}`}
+                  loading="lazy"
+                />
+              )}
 
-            <h3 className="CountryCard__title">
-              <Link className="CountryCard__link" to={`/country/${code}`}>
-                {name}
-              </Link>
-            </h3>
-
-            <div className="CountryCard__meta">{region}</div>
+              <h3 className="CountryCard__title">{name}</h3>
+              <div className="CountryCard__meta">{region}</div>
+            </Link>
           </li>
         );
       })}
