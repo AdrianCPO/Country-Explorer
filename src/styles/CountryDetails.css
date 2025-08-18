@@ -1,0 +1,156 @@
+.CountryDetails {
+  padding-block: var(--space-4);
+}
+
+/* Header */
+.CountryDetails__header {
+  display: grid;
+  align-items: center;
+  gap: var(--space-3);
+  grid-template-columns: auto 1fr;
+  margin-bottom: var(--space-4);
+}
+.CountryDetails__title {
+  margin: 0;
+  font-size: clamp(20px, 3.5vw, 32px);
+  line-height: 1.2;
+}
+
+/* Back button */
+.BackButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+.BackButton:hover {
+  border-color: var(--accent);
+}
+
+/* Card wrapper */
+.CountryDetails__card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Flag image */
+.CountryDetails__flag {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Definition list as tidy rows */
+.CountryDetails__meta {
+  margin: 0;
+}
+.MetaRow {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: start;
+  gap: var(--space-3);
+  padding-block: 8px;
+  border-bottom: 1px dashed var(--border);
+}
+.MetaRow:last-child {
+  border-bottom: none;
+}
+.MetaRow dt {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+.MetaRow dd {
+  margin: 0;
+}
+
+/* Borders as chips */
+.ChipList {
+  --gap: 8px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  padding: 0;
+  margin: 0;
+}
+.Chip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  color: var(--text);
+  text-decoration: none;
+}
+.Chip:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* Loading / error / empty states */
+.CountryDetails__state {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Optional link style for inline links within the card */
+.Link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.Link:hover {
+  text-decoration: underline;
+}
+
+/* Reusable ghost button variant (used on error state) */
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+.Button--ghost:hover {
+  border-color: var(--accent);
+}
+
+/* Responsive tweaks */
+@media (min-width: 720px) {
+  .CountryDetails__card {
+    grid-template-columns: 360px 1fr;
+    align-items: start;
+  }
+  .CountryDetails__flag {
+    max-width: 100%;
+  }
+}
+@media (max-width: 419px) {
+  .MetaRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

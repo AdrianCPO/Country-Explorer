@@ -8,7 +8,7 @@ import {
 import { App } from "./components/App";
 import { CountriesListView } from "./views/CountriesListView";
 import { CountryDetailsView } from "./views/CountryDetailsView";
-import { About } from "./views/About";
+import { AboutView } from "./views/AboutView";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,7 +16,7 @@ export const router = createBrowserRouter(
       <Route index element={<Navigate to="countries" replace />} />
       <Route path="countries" element={<CountriesListView />} />
       <Route path="country/:code" element={<CountryDetailsView />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/about" element={<AboutView />} />
       <Route
         element={
           <section>

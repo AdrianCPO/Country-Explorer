@@ -1,0 +1,177 @@
+.About {
+  padding-block: var(--space-6);
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* HERO */
+.About__hero {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--card) 94%, transparent),
+    color-mix(in oklab, var(--card) 88%, transparent)
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.About__icon {
+  font-size: clamp(32px, 7vw, 64px);
+  filter: saturate(110%);
+  transform: translateZ(0);
+  /* liten hover-levitation */
+  transition: transform 0.2s ease;
+}
+.About__hero:hover .About__icon {
+  transform: translateY(-2px);
+}
+
+.About__title {
+  margin: 0;
+  font-size: clamp(24px, 5vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  background: linear-gradient(
+    90deg,
+    var(--text),
+    color-mix(in oklab, var(--accent) 70%, var(--text))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.About__tagline {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--muted);
+}
+
+.About__cta {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+/* Buttons reused with variants */
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.05s ease;
+}
+.Button:hover {
+  border-color: var(--accent);
+}
+.Button:active {
+  transform: translateY(1px);
+}
+.Button--primary {
+  background: color-mix(in oklab, var(--accent) 18%, var(--card));
+  border-color: var(--accent);
+}
+
+/* CARDS */
+.About__card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-6) var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.About__sectionTitle {
+  margin: 0;
+  font-size: clamp(18px, 3.2vw, 24px);
+}
+
+/* Feature list */
+.About__features {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+}
+.About__feature {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: start;
+  gap: var(--space-3);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: var(--space-3);
+}
+.About__bullet {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Meta list (dl) */
+.About__meta {
+  margin: 0;
+}
+.MetaRow {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding-block: 8px;
+  border-bottom: 1px dashed var(--border);
+}
+.MetaRow:last-child {
+  border-bottom: none;
+}
+.MetaRow dt {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+.MetaRow dd {
+  margin: 0;
+}
+
+/* Footnote */
+.About__footnote {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+@media (min-width: 720px) {
+  .About__card.About__tips {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 419px) {
+  .MetaRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* Respekt för reducerad rörelse */
+@media (prefers-reduced-motion: reduce) {
+  .Button,
+  .About__icon {
+    transition: none !important;
+  }
+}

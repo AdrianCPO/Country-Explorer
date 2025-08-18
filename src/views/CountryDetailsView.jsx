@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getCountryByCode } from "../api/restCountries";
+import "../styles/CountryDetails.css";
 
 export const CountryDetailsView = () => {
   const { code } = useParams();
@@ -35,27 +36,48 @@ export const CountryDetailsView = () => {
     };
   }, [code, reloadKey]);
 
-  if (status === "loading") return <div>Hämtar…</div>;
-
-  if (status === "error")
+  if (status === "loading") {
     return (
-      <div role="alert">
-        Något gick fel.{" "}
-        <button onClick={() => setReloadKey((x) => x + 1)}>Försök igen</button>
-      </div>
-    );
-
-  if (status === "notfound")
-    return (
-      <main>
-        <p>
-          Hittade inte landet med kod: <strong>{code}</strong>
-        </p>
-        <p>
-          <Link to="/countries">Tillbaka till listan</Link>
-        </p>
+      <main className="CountryDetails">
+        <div className="CountryDetails__state" aria-busy="true">
+          Hämtar…
+        </div>
       </main>
     );
+  }
+
+  if (status === "error") {
+    return (
+      <main className="CountryDetails">
+        <div className="CountryDetails__state" role="alert">
+          Något gick fel.
+          <button
+            className="Button Button--ghost"
+            onClick={() => setReloadKey((x) => x + 1)}
+          >
+            Försök igen
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  if (status === "notfound") {
+    return (
+      <main className="CountryDetails">
+        <div className="CountryDetails__state">
+          <p>
+            Hittade inte landet med kod: <strong>{code}</strong>
+          </p>
+          <p>
+            <Link className="Link" to="/countries">
+              Tillbaka till listan
+            </Link>
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   // success
   const name = country?.name?.common ?? "Okänt";
@@ -74,56 +96,69 @@ export const CountryDetailsView = () => {
   const borders = Array.isArray(country?.borders) ? country.borders : [];
 
   return (
-    <main>
-      <button onClick={() => navigate(-1)} aria-label="Gå tillbaka">
-        ← Tillbaka
-      </button>
+    <main className="CountryDetails container">
+      <div className="CountryDetails__header">
+        <button
+          className="BackButton"
+          onClick={() => navigate(-1)}
+          aria-label="Gå tillbaka"
+        >
+          ← Tillbaka
+        </button>
+        <h1 className="CountryDetails__title">{name}</h1>
+      </div>
 
-      <h1>{name}</h1>
+      <section className="CountryDetails__card">
+        {flagSrc && (
+          <img
+            className="CountryDetails__flag"
+            src={flagSrc}
+            alt={`Flagga för ${name}`}
+            loading="lazy"
+          />
+        )}
 
-      {flagSrc && (
-        <img
-          src={flagSrc}
-          alt={`Flagga för ${name}`}
-          loading="lazy"
-          style={{
-            maxWidth: 320,
-            height: "auto",
-            display: "block",
-            marginBottom: 12,
-          }}
-        />
-      )}
+        <dl className="CountryDetails__meta">
+          <div className="MetaRow">
+            <dt>Region</dt>
+            <dd>{region}</dd>
+          </div>
 
-      <dl>
-        <dt>Region</dt>
-        <dd>{region}</dd>
+          <div className="MetaRow">
+            <dt>Huvudstad</dt>
+            <dd>{capital}</dd>
+          </div>
 
-        <dt>Huvudstad</dt>
-        <dd>{capital}</dd>
+          <div className="MetaRow">
+            <dt>Befolkning</dt>
+            <dd>{population}</dd>
+          </div>
 
-        <dt>Befolkning</dt>
-        <dd>{population}</dd>
+          <div className="MetaRow">
+            <dt>Språk</dt>
+            <dd>{languages}</dd>
+          </div>
 
-        <dt>Språk</dt>
-        <dd>{languages}</dd>
-
-        <dt>Grannländer (koder)</dt>
-        <dd>
-          {borders.length === 0 ? (
-            "—"
-          ) : (
-            <ul>
-              {borders.map((b) => (
-                <li key={b}>
-                  {/* Enkel länk vidare – vi använder bara koden för att hålla det enkelt */}
-                  <Link to={`/country/${b}`}>{b}</Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </dd>
-      </dl>
+          <div className="MetaRow">
+            <dt>Grannländer</dt>
+            <dd>
+              {borders.length === 0 ? (
+                "—"
+              ) : (
+                <ul className="ChipList" aria-label="Grannländer (koder)">
+                  {borders.map((b) => (
+                    <li key={b}>
+                      <Link className="Chip" to={`/country/${b}`}>
+                        {b}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </dd>
+          </div>
+        </dl>
+      </section>
     </main>
   );
 };
