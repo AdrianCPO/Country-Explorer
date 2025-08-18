@@ -72,10 +72,6 @@ export const AboutView = () => {
             <dd>REST Countries (hämtning per kod och lista)</dd>
           </div>
         </dl>
-        <p className="About__footnote">
-          Psst! Testa att växla systemtema — färgerna följer automatisk dina
-          inställningar via <code>prefers-color-scheme</code>.
-        </p>
       </section>
     </main>
   );

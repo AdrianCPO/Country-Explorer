@@ -15,7 +15,7 @@ export const CountriesListView = () => {
     let alive = true;
     setStatus("loading");
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     getAllCountries({ signal: controller.signal })
       .then((data) => {
