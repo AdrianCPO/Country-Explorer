@@ -4,21 +4,19 @@
   gap: var(--space-4);
 }
 
-/* Header */
 .CountriesView__title {
   margin: 0;
   font-size: clamp(20px, 3.5vw, 28px);
   line-height: 1.2;
 }
 
-/* Count & clear */
 .CountRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
   color: var(--muted);
-  margin-top: -8px; /* lite tightare mot FilterBar */
+  margin-top: -8px;
 }
 .CountRow__text {
   font-variant-numeric: tabular-nums;
@@ -36,7 +34,6 @@
   border-color: var(--accent);
 }
 
-/* Error/Info card */
 .StatusCard {
   background: var(--card);
   border: 1px solid var(--border);
@@ -52,7 +49,6 @@
   font-size: 0.95em;
 }
 
-/* Empty state */
 .EmptyState {
   text-align: center;
   background: var(--card);
@@ -75,7 +71,6 @@
   color: var(--muted);
 }
 
-/* Skeleton loading */
 .SkeletonGrid {
   display: grid;
   gap: var(--space-4);
@@ -115,7 +110,6 @@
   }
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .SkeletonCard {
     animation: none !important;

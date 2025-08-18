@@ -2,7 +2,6 @@
   padding-block: var(--space-4);
 }
 
-/* Header */
 .CountryDetails__header {
   display: grid;
   align-items: center;
@@ -16,7 +15,6 @@
   line-height: 1.2;
 }
 
-/* Back button */
 .BackButton {
   display: inline-flex;
   align-items: center;
@@ -32,7 +30,6 @@
   border-color: var(--accent);
 }
 
-/* Card wrapper */
 .CountryDetails__card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -42,7 +39,6 @@
   gap: var(--space-4);
 }
 
-/* Flag image */
 .CountryDetails__flag {
   width: 100%;
   max-width: 360px;
@@ -52,7 +48,6 @@
   display: block;
 }
 
-/* Definition list as tidy rows */
 .CountryDetails__meta {
   margin: 0;
 }
@@ -75,7 +70,6 @@
   margin: 0;
 }
 
-/* Borders as chips */
 .ChipList {
   --gap: 8px;
   list-style: none;
@@ -101,7 +95,6 @@
   text-decoration: none;
 }
 
-/* Loading / error / empty states */
 .CountryDetails__state {
   background: var(--card);
   border: 1px solid var(--border);
@@ -113,7 +106,6 @@
   justify-content: space-between;
 }
 
-/* Optional link style for inline links within the card */
 .Link {
   color: var(--accent);
   text-decoration: none;
@@ -122,7 +114,6 @@
   text-decoration: underline;
 }
 
-/* Reusable ghost button variant (used on error state) */
 .Button {
   display: inline-flex;
   align-items: center;
@@ -138,7 +129,6 @@
   border-color: var(--accent);
 }
 
-/* Responsive tweaks */
 @media (min-width: 720px) {
   .CountryDetails__card {
     grid-template-columns: 360px 1fr;

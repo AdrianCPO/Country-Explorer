@@ -52,16 +52,13 @@ describe("CountriesListView – filtrering i minnet", () => {
       </MemoryRouter>
     );
 
-    // Vänta in startlistan
     await screen.findByRole("link", { name: /sweden/i });
 
-    // Filtrera
     await user.selectOptions(screen.getByLabelText(/region/i), "Europe");
     const input = screen.getByRole("textbox", { name: /sök land/i });
     await user.clear(input);
     await user.type(input, "sw");
 
-    // vänta ut debouncen (SearchBar använder 300ms)
     await new Promise((r) => setTimeout(r, 350));
 
     expect(screen.getByRole("link", { name: /sweden/i })).toBeInTheDocument();

@@ -85,7 +85,6 @@ export const CountryDetailsView = () => {
     );
   }
 
-  // success
   const name = country?.name?.common ?? "Okänt";
   const flagSrc = country?.flags?.svg || country?.flags?.png;
   const capital = Array.isArray(country?.capital)

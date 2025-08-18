@@ -28,7 +28,7 @@ describe("validateQuery", () => {
     expect(validateQuery("Côte d’Azur")).toEqual({
       ok: false,
       error: "Endast bokstäver, mellanslag och bindestreck.",
-    }); // apostrof ska EJ godkännas
+    });
     expect(validateQuery("Bosnien-Hercegovina")).toEqual({
       ok: true,
       value: "Bosnien-Hercegovina",

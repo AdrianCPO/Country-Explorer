@@ -4,7 +4,6 @@
   gap: var(--space-6);
 }
 
-/* HERO */
 .About__hero {
   text-align: center;
   display: grid;
@@ -24,7 +23,6 @@
   font-size: clamp(32px, 7vw, 64px);
   filter: saturate(110%);
   transform: translateZ(0);
-  /* liten hover-levitation */
   transition: transform 0.2s ease;
 }
 .About__hero:hover .About__icon {
@@ -59,7 +57,6 @@
   margin-top: var(--space-4);
 }
 
-/* Buttons reused with variants */
 .Button {
   display: inline-flex;
   align-items: center;
@@ -88,7 +85,6 @@
   border-color: var(--accent);
 }
 
-/* CARDS */
 .About__card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -103,7 +99,6 @@
   font-size: clamp(18px, 3.2vw, 24px);
 }
 
-/* Feature list */
 .About__features {
   display: grid;
   gap: var(--space-3);
@@ -125,7 +120,6 @@
   line-height: 1;
 }
 
-/* Meta list (dl) */
 .About__meta {
   margin: 0;
 }
@@ -148,7 +142,6 @@
   margin: 0;
 }
 
-/* Footnote */
 .About__footnote {
   margin: 0;
   color: var(--muted);
@@ -168,7 +161,6 @@
   }
 }
 
-/* Respekt för reducerad rörelse */
 @media (prefers-reduced-motion: reduce) {
   .Button,
   .About__icon {

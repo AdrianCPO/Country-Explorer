@@ -5,7 +5,7 @@ const FIELDS =
 export async function getAllCountries(init) {
   const res = await fetch(`${BASE}/all?${FIELDS}`, init);
   if (!res.ok) throw new Error("Kunde inte hämta länder");
-  return await res.json(); // Array
+  return await res.json();
 }
 
 export async function getCountriesByName(q, init) {
@@ -14,9 +14,9 @@ export async function getCountriesByName(q, init) {
     `${BASE}/name/${encodeURIComponent(q)}?${FIELDS}`,
     init
   );
-  if (res.status === 404) return []; // inget hittat
+  if (res.status === 404) return [];
   if (!res.ok) throw new Error("Kunde inte söka länder");
-  return await res.json(); // Array
+  return await res.json();
 }
 
 export async function getCountriesByRegion(region, init) {

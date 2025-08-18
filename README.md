@@ -1,6 +1,10 @@
 # Country Explorer
 
-En responsiv och tillgänglig React-app som hämtar länder från API:et REST Countries.
+En responsiv och tillgänglig React-app som hämtar länder från API:et REST Countries och låter dig filtrera och söka.
+
+## Demo & skärmdumpar
+
+- Wireframes/skisser finns i `assets/`
 
 ## Kör igång
 
@@ -67,3 +71,13 @@ Jag skrev en global css för att få hemsidan responsiv enligt de breakpoints ja
 Jag gick vidare med att göra små förbättringar på hemsidan, en resultaträknare, abort och timeoutcontroller för ListView och DetailsView. Utöver global css gjorde jag komponentcss med fokus på a11y. Visste inte hur omfattande felhanteringen behövde vara så lade till ett nytt test i efterhand som testar felhantering i DetailsView.
 
 ## Reflektion
+
+Det brukar vara så enkelt att vara efterklok, men jag vet inte riktigt om det är så enkelt i detta fallet. Det hade hjälpt mig enormt att göra ett ordentligt förarbete. Men med tanke på tidsplanen vet jag inte om den resursfördelningen hade varit bättre. Jag är för oerfaren inom sådana här projektarbeten för att veta vad rätt tillvägagångssätt är. Men något jag absolut hade gjort annorlunda hade varit att planerat veckan bättre. Jag visste ju att jag skulle vara borta i helgen, jag visste att det var malmöfestival och födelsedagsfirande under veckan. Jag hade kunnat planera ut min tillgängliga tid över dagarna mer jämt och med mer omsorg.
+Jag hade väldigt gärna försökt använda Playwright bibloteket då jag tror att det hade varit ett testsystem jag hade haft nytta av i framtida projekt både som student men framförallt som yrkesman.
+
+Jag hade nog skrivit mindre testkomponenter initialt och sedan byggt på dem. Även om det kanske inte blir rött till grönt på de sättet som det är tänkt hade det nog gett mig mer. Jag hade nog lärt mig det bättre och sparat en massa tid och frustration. Jag är helt enkelt inte tillräckligt bra för att göra korrekta och utförliga tester innan jag gjort koden. Inte ens om tidsplanen för samma projekt varit dubbelt så långt.
+
+Utformningen på denna country-explorer app är väldigt snarlik andra projekt jag gjort. Jag gick direkt till en design och en kodstruktur jag var van och bekväm med. Jag tog till och med kodstycken från andra projekt. Jag hade gärna lämnat den tryggheten och testat något nytt. Hoppas att med lite mer erfarenhet och kompetens att jag vågar utmana mig själv.
+Många gånger jag fastnade förlitade jag mig totalt på AI för hjälp. Ofta löste AI ett problem men gav mig ett eller flera nya. Jag borde vänt mig till min lärare istället för att gräva min grav djupare. Man vill klara det själv och inte vara till besvär...
+
+Något jag dock är stolt över är hur mycket svett och tårar jag lagt på tillgängligheten i mitt projekt. Användaren har varit i fokus och tillgängligheten har varit central i all kod jag skrivit. Jag har även försökt se till att min kod är välstrukturerad och lättläst. Jag har get mig på 5testfiler med 14 tester totalt trots att det är nytt, främmande och svårt.

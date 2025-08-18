@@ -4,32 +4,26 @@
   padding: 0;
 }
 
-/* Kortet (li) */
 .CountryCard {
-  padding: 0; /* padding hanteras av länken */
+  padding: 0;
 }
 
-/* Blocklänk som fyller hela kortet och sköter layouten */
 .CountryCard__link {
   display: grid;
   gap: var(--space-3);
   text-decoration: none;
   color: inherit;
   border-radius: var(--radius);
-  /* skapa “klickyta” */
   padding: var(--space-4);
-  /* matcha card-stil och interaktion */
-  background: transparent; /* kortet har redan bakgrund via .card */
+  background: transparent;
   outline: none;
 }
 
-/* Flytta hover/active från .CountryCard till länken */
 .CountryCard__link:hover {
   text-decoration: none;
 }
 .CountryCard__link:hover,
 .CountryCard__link:active {
-  /* lätt lyft + accentkant */
   border-radius: var(--radius);
 }
 .CountryCard:hover {
@@ -40,13 +34,11 @@
     transform 0.05s ease;
 }
 
-/* Tangentbordsfokus – tydlig ring som inte skakar layouten */
 .CountryCard__link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Bild, titel, meta */
 .CountryCard__flag {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -64,13 +56,11 @@
   font-size: 0.95em;
 }
 
-/* Tomt fallback-meddelande */
 .CountriesList__empty {
   color: var(--muted);
   margin: var(--space-4) 0;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .CountryCard {
     transition: none !important;

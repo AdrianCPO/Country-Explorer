@@ -9,7 +9,6 @@ import {
 import userEvent from "@testing-library/user-event";
 import { SearchBar } from "./SearchBar";
 
-// Viktigt: städa efter varje test så vi inte har flera instanser i DOM
 afterEach(() => {
   cleanup();
 });
@@ -34,7 +33,6 @@ describe("SearchBar (tester, utan timers)", () => {
     await user.clear(input);
     await user.type(input, "Sweden");
 
-    // Vänta in effekten som anropar onQueryChange
     await waitFor(() => {
       expect(handleChange).toHaveBeenCalledWith("Sweden");
     });

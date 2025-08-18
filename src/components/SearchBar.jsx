@@ -10,17 +10,14 @@ export const SearchBar = ({
   const [value, setValue] = useState(query);
   const [error, setError] = useState(null);
 
-  // se till att input följer prop om den ändras utifrån
   useEffect(() => {
     setValue(query);
     const { ok, error } = validateQuery(query);
     setError(ok ? null : error);
   }, [query]);
 
-  // debounced value
   const debouncedValue = useDebounce(value, debounceMs);
 
-  // validera + skicka uppåt när debounced ändras
   useEffect(() => {
     if (debounceMs > 0) {
       const { ok, value: cleaned } = validateQuery(debouncedValue);
@@ -30,7 +27,6 @@ export const SearchBar = ({
     }
   }, [debouncedValue, debounceMs, onQueryChange]);
 
-  // direktläge (utan debounce)
   const handleChange = (e) => {
     const next = e.target.value;
     setValue(next);
