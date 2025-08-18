@@ -1,0 +1,124 @@
+.CountriesView {
+  padding-block: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Header */
+.CountriesView__title {
+  margin: 0;
+  font-size: clamp(20px, 3.5vw, 28px);
+  line-height: 1.2;
+}
+
+/* Count & clear */
+.CountRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--muted);
+  margin-top: -8px; /* lite tightare mot FilterBar */
+  text-align: none;
+}
+.CountRow__text {
+  font-variant-numeric: tabular-nums;
+}
+.CountRow__clear {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.CountRow__clear:hover {
+  border-color: var(--accent);
+}
+
+/* Error/Info card */
+.StatusCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.StatusCard__muted {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+/* Empty state */
+.EmptyState {
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-6) var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+}
+.EmptyState__emoji {
+  font-size: clamp(28px, 6vw, 44px);
+}
+.EmptyState__title {
+  margin: 0;
+  font-size: clamp(18px, 3.2vw, 24px);
+}
+.EmptyState__text {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Skeleton loading */
+.SkeletonGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+@media (min-width: 600px) {
+  .SkeletonGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .SkeletonGrid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+.SkeletonCard {
+  height: 180px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--card) 88%, transparent) 0%,
+    color-mix(in oklab, var(--card) 96%, transparent) 50%,
+    color-mix(in oklab, var(--card) 88%, transparent) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.1s linear infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .SkeletonCard {
+    animation: none !important;
+  }
+}

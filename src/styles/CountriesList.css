@@ -1,0 +1,62 @@
+/* Nollställ ul så inga punkter syns */
+.CountriesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Kortet (li) – liten hover för feedback */
+.CountryCard {
+  display: grid;
+  gap: var(--space-3);
+  transition:
+    border-color 0.15s ease,
+    transform 0.05s ease;
+}
+.CountryCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* Flagga – egen klass istället för globala .flag */
+.CountryCard__flag {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Titel + länk */
+.CountryCard__title {
+  margin: 0;
+  font-size: clamp(14px, 2.4vw, 18px);
+  line-height: 1.2;
+}
+.CountryCard__link {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 8px; /* nicer focus ring */
+}
+.CountryCard__link:hover {
+  text-decoration: underline;
+}
+
+/* Region/muted text */
+.CountryCard__meta {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+/* Tomt fallback-meddelande (om komponenten används fristående) */
+.CountriesList__empty {
+  color: var(--muted);
+  margin: var(--space-4) 0;
+}
+
+/* Respekt för reducerad rörelse */
+@media (prefers-reduced-motion: reduce) {
+  .CountryCard {
+    transition: none !important;
+  }
+}
