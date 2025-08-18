@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { validateQuery } from "../utils/validation";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const SearchBar = ({
   query = "",
@@ -8,32 +9,28 @@ export const SearchBar = ({
 }) => {
   const [value, setValue] = useState(query);
   const [error, setError] = useState(null);
-  const timerRef = useRef(null);
 
-  // Håll input i synk om prop ändras – anropa inte onQueryChange här.
+  // se till att input följer prop om den ändras utifrån
   useEffect(() => {
     setValue(query);
     const { ok, error } = validateQuery(query);
     setError(ok ? null : error);
   }, [query]);
 
-  // Debounce-läge: endast när debounceMs > 0
+  // debounced value
+  const debouncedValue = useDebounce(value, debounceMs);
+
+  // validera + skicka uppåt när debounced ändras
   useEffect(() => {
-    if (debounceMs <= 0) return;
+    if (debounceMs > 0) {
+      const { ok, value: cleaned } = validateQuery(debouncedValue);
+      if (ok) {
+        onQueryChange(cleaned);
+      }
+    }
+  }, [debouncedValue, debounceMs, onQueryChange]);
 
-    const { ok, value: cleaned } = validateQuery(value);
-
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      if (ok) onQueryChange(cleaned);
-    }, debounceMs);
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [value, debounceMs, onQueryChange]);
-
-  // Omedelbart läge: ring direkt i onChange
+  // direktläge (utan debounce)
   const handleChange = (e) => {
     const next = e.target.value;
     setValue(next);
