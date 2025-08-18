@@ -132,7 +132,7 @@ export const CountriesListView = () => {
           <div className="EmptyState__emoji" aria-hidden="true">
             🔍
           </div>
-          <h2 className="EmptyState__title">Inget matchade din sökning</h2>
+          <h2 className="EmptyState__title">Inga träffar</h2>{" "}
           <p className="EmptyState__text">
             Prova ett annat sökord eller välj en annan region.
           </p>

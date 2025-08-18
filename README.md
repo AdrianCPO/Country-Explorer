@@ -14,7 +14,7 @@ npm test
 
 src/api/restCountries.js – API (fetch)
 
-src/views/\* – sidor (lista + detaljer)
+src/views/\* – sidor (lista + detaljer + about)
 
 src/components/\* – SearchBar, RegionFilter, CountriesList, Navbar
 
@@ -22,7 +22,7 @@ src/utils/validation.js – inputvalidering
 
 ## Funktioner
 
-Sök + regionfilter (klientsidefiltrering)
+Sök + regionfilter
 
 Detaljsida per land
 
@@ -64,4 +64,6 @@ Arbetet fortgick med att jag skrev tester, en detaljvy samt filterfunktion. Jag 
 
 Jag skrev en global css för att få hemsidan responsiv enligt de breakpoints jag bestämde initialt (finns i mappen assets) Jag blev relativt nöjd och ansåg att projektet flytit på bättre än väntat. Den nöjda känslan skulle snabbt ändras till frustration när nästa stopp i projektet var att få mina tester gröna. Jag fick skriva om testerna och komponenterna som testades flera gånger utan att få de grönt. Grönt blev rött och rött blev grönt och jag blev yr. Kändes som jag stirrade in i en disko-kula...jag spenderade dagar med att gräva min grop djupare och djupare i AI-träsket med försök att göra mina tester gröna. Till slut gick det. Jag kunde inte undvika att i min lättnad blicka tillbaka på end to end tester, undra om inte det hade varit smidigare ändå?
 
-Jag gick vidare med att göra små förbättringar på hemsidan, en resultaträknare,
+Jag gick vidare med att göra små förbättringar på hemsidan, en resultaträknare, abort och timeoutcontroller för ListView och DetailsView. Utöver global css gjorde jag komponentcss med fokus på a11y. Visste inte hur omfattande felhanteringen behövde vara så lade till ett nytt test i efterhand som testar felhantering i DetailsView.
+
+## Reflektion
