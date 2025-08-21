@@ -42,8 +42,6 @@ Validering (längd/tecken), ingen innerHTML
 
 Timeout + abort på hämtningar
 
-(Prod-idé) Content Security Policy (CSP)
-
 ## Teststrategi
 
 validation (unit)
